@@ -1,6 +1,7 @@
-from tkinter import Tk, Button, Label, Frame, Toplevel, Canvas, Scrollbar,PhotoImage, Message
+from tkinter import Tk, Button, Label, Frame, Toplevel, Canvas, Scrollbar, Message
 from os import listdir, startfile
 from os.path import isfile, join, realpath, dirname, getsize
+from sys import argv
 from math import ceil
 from datetime import datetime
 from PIL import ImageTk,Image
@@ -8,7 +9,7 @@ window = Tk()
 window.geometry("640x640")
 window.configure(bg="#25252f")
 window.update()
-CWD = realpath(dirname(__name__))
+CWD = dirname(argv[0])
 ProjectsList = [f for f in listdir(CWD+"\projects") if (not isfile(join(CWD+"\projects", f)))]
 mainframe = Frame(window,bg="#25252f")
 mainframe.pack(fill="both",expand=1)
@@ -138,7 +139,7 @@ class Project():
 		
 		if(getsize(filePath)==0):
 			with open(filePath,"w") as file:
-				self.icon = "G:\python\Projects\Project Launcher\empty.png"
+				self.icon = join(CWD,"empty.png")
 				now = datetime.now()
 				#self.date = "-".join((map(str,now.day,now.month,now.year)) + " " + ":".join(map(str,now.hour,now.minute,now.second)))
 				self.date = str(now)
@@ -158,6 +159,7 @@ gridSide = ceil(len(ProjectsList)**0.5)
 i = 0
 #errorImage = ImageTk.PhotoImage(Image.open(join(CWD,"empty.png")).resize((205,205),Image.NEAREST))
 errorImage = ImageTk.PhotoImage(Image.new("RGB",(205,205),(37,37,45)))
+ImageTk.PhotoImage(Image.new("RGB",(1,1),(0,0,0)))
 done = False
 while not done:
 	rowFrame = Frame(gridFrame,bg="lightgrey")
